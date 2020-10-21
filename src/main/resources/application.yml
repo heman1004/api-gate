@@ -1,0 +1,82 @@
+server:
+  port: 8088
+
+---
+
+spring:
+  profiles: default
+  cloud:
+    gateway:
+      routes:
+        - id: RequestContext
+          uri: http://localhost:8081
+          predicates:
+            - Path=/requestAggs/** 
+        - id: PaymentContext
+          uri: http://localhost:8082
+          predicates:
+            - Path=/paymentAggs/** 
+        - id: DeliveryContext
+          uri: http://localhost:8083
+          predicates:
+            - Path=/deliveryAggs/** 
+        - id: DeliveryDashboardContext
+          uri: http://localhost:8084
+          predicates:
+            - Path= /deliveryBoards/**
+        - id: PointContext
+          uri: http://localhost:8085
+          predicates:
+            - Path=/pointAggs/** 
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+
+---
+
+spring:
+  profiles: docker
+  cloud:
+    gateway:
+      routes:
+        - id: RequestContext
+          uri: http://RequestContext:8080
+          predicates:
+            - Path=/requestAggs/** 
+        - id: PaymentContext
+          uri: http://PaymentContext:8080
+          predicates:
+            - Path=/paymentAggs/** 
+        - id: DeliveryContext
+          uri: http://DeliveryContext:8080
+          predicates:
+            - Path=/deliveryAggs/** 
+        - id: DeliveryDashboardContext
+          uri: http://DeliveryDashboardContext:8080
+          predicates:
+            - Path= /deliveryBoards/**
+        - id: PointContext
+          uri: http://PointContext:8080
+          predicates:
+            - Path=/pointAggs/** 
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+server:
+  port: 8080
